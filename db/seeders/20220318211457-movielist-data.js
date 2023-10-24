@@ -1,5 +1,13 @@
 "use strict";
 
+// NEW: add this code to each migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+// END of new code
+
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     /*
@@ -8,8 +16,13 @@ module.exports = {
 
       Example:
       */
+    // new
+    options.tableName = 'MoviesLists';
+    // end
+
+    // the below used to say "MoviesLists" instead of options
     return queryInterface.bulkInsert(
-      "MoviesLists",
+      options,
       [
         {
           movieId: 1,
@@ -101,6 +114,11 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete("MoviesLists", null, {});
+    // new
+    options.tableName = 'MoviesLists';
+    // end
+
+    // the below used to say "MoviesLists" instead of options
+    return queryInterface.bulkDelete(options, null, {});
   },
 };

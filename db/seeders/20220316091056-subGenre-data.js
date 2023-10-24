@@ -1,4 +1,12 @@
 "use strict";
+
+// NEW: add this code to each migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+// END of new code
+
 const data = require("../../json/tableAssets.json");
 const results = [];
 data.subgenres.forEach((ele) => {
@@ -17,7 +25,12 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkInsert("SubGenres", results, {});
+    // new
+    options.tableName = 'SubGenres';
+    // end
+
+    // the below used to say "SubGenres" instead of options
+    return queryInterface.bulkInsert(options, results, {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -27,6 +40,11 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete("SubGenres", null, {});
+    // new
+    options.tableName = 'SubGenres';
+    // end
+
+    // the below used to say "SubGenres" instead of options
+    return queryInterface.bulkDelete(options, null, {});
   },
 };

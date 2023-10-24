@@ -1,4 +1,12 @@
 "use strict";
+
+// NEW: add this code to each migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+// END of new code
+
 const users = require("../../json/sampleUsers.json");
 const results = [];
 users.forEach((ele) => {
@@ -20,7 +28,12 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkInsert("Users", results, {});
+    // new
+    options.tableName = 'Users';
+    // end
+
+    // the below used to say "Users" instead of options
+    return queryInterface.bulkInsert(options, results, {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -30,6 +43,11 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete("Users", null, {});
+    // new
+    options.tableName = 'Users';
+    // end
+
+    // the below used to say "Users" instead of options
+    return queryInterface.bulkDelete(options, null, {});
   },
 };

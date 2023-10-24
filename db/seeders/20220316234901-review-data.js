@@ -1,4 +1,12 @@
 "use strict";
+
+// NEW: add this code to each migration file
+let options = {};
+if (process.env.NODE_ENV === 'production') {
+  options.schema = process.env.SCHEMA;  // define your schema in options object
+}
+// END of new code
+
 const data = require("../../json/fullDetails.json");
 const users = require("../../json/sampleUsers.json");
 const reviewArr = [
@@ -53,7 +61,12 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkInsert("Reviews", results, {});
+    // new
+    options.tableName = 'Reviews';
+    // end
+
+    // the below used to say "Reviews" instead of options
+    return queryInterface.bulkInsert(options, results, {});
   },
 
   down: (queryInterface, Sequelize) => {
@@ -63,6 +76,11 @@ module.exports = {
 
       Example:
       */
-    return queryInterface.bulkDelete("Reviews", null, {});
+    // new
+    options.tableName = 'Reviews';
+    // end
+
+    // the below used to say "Reviews" instead of options
+    return queryInterface.bulkDelete(options, null, {});
   },
 };
